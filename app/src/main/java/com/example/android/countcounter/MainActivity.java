@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         }
         TextView textX=findViewById(R.id.playerOcount);
         TextView textO=findViewById(R.id.playerXcount);
-        textX.setText(""+oCount);
-        textO.setText(""+xCount);
+        textX.setText(""+xCount);
+        textO.setText(""+oCount);
     }
 
     public void Add(View view) {
