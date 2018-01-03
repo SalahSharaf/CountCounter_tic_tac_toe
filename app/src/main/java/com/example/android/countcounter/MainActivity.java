@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
             texts[i] = btn[i].getText().toString();
             btn[i].setText("");
         }
-        TextView textX=findViewById(R.id.playerOcount);
-        TextView textO=findViewById(R.id.playerXcount);
+        TextView textX=findViewById(R.id.playerXcount);
+        TextView textO=findViewById(R.id.playerOcount);
         textX.setText(""+xCount);
         textO.setText(""+oCount);
     }
