@@ -138,6 +138,17 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < btn.length; i++) {
                 btn[i].setEnabled(false);
             }
+        } else if (texts[2].equals(texts[5]) && texts[5].equals(texts[8]) && !texts[2].equals("")) {
+            if (texts[6].equals("X")) {
+                showToast("Player X is the winner");
+                xCount++;
+            } else if (texts[6].equals("O")) {
+                showToast("Player O is the winner");
+                oCount++;
+            }
+            for (int i = 0; i < btn.length; i++) {
+                btn[i].setEnabled(false);
+            }
         }
     }
 

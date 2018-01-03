@@ -23,5 +23,4 @@ public class MainMenu extends AppCompatActivity {
     public void Exit(View view) {
         finishAffinity();
     }
-
 }
