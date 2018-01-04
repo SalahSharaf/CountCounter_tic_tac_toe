@@ -28,14 +28,15 @@ public class MainActivity extends AppCompatActivity {
         btn = new Button[]{findViewById(R.id.b1), findViewById(R.id.b2), findViewById(R.id.b3), findViewById(R.id.b4), findViewById(R.id.b5), findViewById(R.id.b6)
                 , findViewById(R.id.b7), findViewById(R.id.b8), findViewById(R.id.b9)};
         texts = new String[btn.length];
-        for (int i = 0; i < btn.length; i++) {
-            texts[i] = btn[i].getText().toString();
-            btn[i].setText("");
-        }
         TextView textX=findViewById(R.id.playerXcount);
         TextView textO=findViewById(R.id.playerOcount);
         textX.setText(""+xCount);
         textO.setText(""+oCount);
+        if(savedInstanceState!=null){
+            texts=savedInstanceState.getStringArray("textsArray");
+            xCount=savedInstanceState.getInt("xCount");
+            oCount=savedInstanceState.getInt("oCount");
+        }
     }
 
     public void Add(View view) {
@@ -167,6 +168,13 @@ public class MainActivity extends AppCompatActivity {
     public void mainMenu(View view){
         Intent intent=new Intent(this,MainMenu.class);
         startActivity(intent);
+    }
+    @Override
+    public void onSaveInstanceState(Bundle savedState){
+        savedState.putStringArray("textsArray",texts);
+        savedState.putInt("cCount",xCount);
+        savedState.putInt("xCount",oCount);
+        super.onSaveInstanceState(savedState);
     }
 
 }
