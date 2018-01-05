@@ -1,18 +1,20 @@
 package com.example.android.countcounter;
 
-import android.content.ClipData;
-import android.content.ClipDescription;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -26,24 +28,37 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     float dX;
     float dY;
     int lastAction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ///initializing buttons array
         btn = new Button[]{findViewById(R.id.b1), findViewById(R.id.b2), findViewById(R.id.b3), findViewById(R.id.b4), findViewById(R.id.b5), findViewById(R.id.b6)
                 , findViewById(R.id.b7), findViewById(R.id.b8), findViewById(R.id.b9)};
         texts = new String[btn.length];
+        /////updating texts with the final result
         TextView textX = findViewById(R.id.playerXcount);
         TextView textO = findViewById(R.id.playerOcount);
         textX.setText("" + xCount);
         textO.setText("" + oCount);
+        //////restoring saved state
         if (savedInstanceState != null) {
             texts = savedInstanceState.getStringArray("textsArray");
             xCount = savedInstanceState.getInt("xCount");
             oCount = savedInstanceState.getInt("oCount");
         }
-        final CardView layout = findViewById(R.id.menu);
-        layout.setTag("22");
+        ////hiding status bar
+        if (Build.VERSION.SDK_INT < 16) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        } else {
+            View decorView = getWindow().getDecorView();
+            int uiOption = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            decorView.setSystemUiVisibility(uiOption);
+        }
     }
 
     public void Add(View view) {
@@ -218,52 +233,52 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 }
 
-    class MyDragShadowBuilder extends View.DragShadowBuilder {
+class MyDragShadowBuilder extends View.DragShadowBuilder {
 
-        // The drag shadow image, defined as a drawable thing
-        private static Drawable shadow;
+    // The drag shadow image, defined as a drawable thing
+    private static Drawable shadow;
 
-        // Defines the constructor for myDragShadowBuilder
-        public MyDragShadowBuilder(View v) {
+    // Defines the constructor for myDragShadowBuilder
+    public MyDragShadowBuilder(View v) {
 
-            // Stores the View parameter passed to myDragShadowBuilder.
-            super(v);
+        // Stores the View parameter passed to myDragShadowBuilder.
+        super(v);
 
-            // Creates a draggable image that will fill the Canvas provided by the system.
-            shadow = new ColorDrawable(Color.LTGRAY);
-        }
-
-        // Defines a callback that sends the drag shadow dimensions and touch point back to the
-        // system.
-        @Override
-        public void onProvideShadowMetrics(Point size, Point touch) {
-            // Defines local variables
-            int width, height;
-
-            // Sets the width of the shadow to half the width of the original View
-            width = getView().getWidth() / 2;
-
-            // Sets the height of the shadow to half the height of the original View
-            height = getView().getHeight() / 2;
-
-            // The drag shadow is a ColorDrawable. This sets its dimensions to be the same as the
-            // Canvas that the system will provide. As a result, the drag shadow will fill the
-            // Canvas.
-            shadow.setBounds(0, 0, width, height);
-
-            // Sets the size parameter's width and height values. These get back to the system
-            // through the size parameter.
-            size.set(width, height);
-
-            // Sets the touch point's position to be in the middle of the drag shadow
-            touch.set(width / 2, height / 2);
-        }
-
-        // Defines a callback that draws the drag shadow in a Canvas that the system constructs
-        // from the dimensions passed in onProvideShadowMetrics().
-        @Override
-        public void onDrawShadow(Canvas canvas) {
-            // Draws the ColorDrawable in the Canvas passed in from the system.
-            shadow.draw(canvas);
-        }
+        // Creates a draggable image that will fill the Canvas provided by the system.
+        shadow = new ColorDrawable(Color.LTGRAY);
     }
+
+    // Defines a callback that sends the drag shadow dimensions and touch point back to the
+    // system.
+    @Override
+    public void onProvideShadowMetrics(Point size, Point touch) {
+        // Defines local variables
+        int width, height;
+
+        // Sets the width of the shadow to half the width of the original View
+        width = getView().getWidth() / 2;
+
+        // Sets the height of the shadow to half the height of the original View
+        height = getView().getHeight() / 2;
+
+        // The drag shadow is a ColorDrawable. This sets its dimensions to be the same as the
+        // Canvas that the system will provide. As a result, the drag shadow will fill the
+        // Canvas.
+        shadow.setBounds(0, 0, width, height);
+
+        // Sets the size parameter's width and height values. These get back to the system
+        // through the size parameter.
+        size.set(width, height);
+
+        // Sets the touch point's position to be in the middle of the drag shadow
+        touch.set(width / 2, height / 2);
+    }
+
+    // Defines a callback that draws the drag shadow in a Canvas that the system constructs
+    // from the dimensions passed in onProvideShadowMetrics().
+    @Override
+    public void onDrawShadow(Canvas canvas) {
+        // Draws the ColorDrawable in the Canvas passed in from the system.
+        shadow.draw(canvas);
+    }
+}
