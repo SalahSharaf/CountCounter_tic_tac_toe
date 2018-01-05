@@ -11,18 +11,21 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
     private int playerID = 0;
     String[] texts;
     Button[] btn;
     public static int xCount, oCount;
-
+    float dX;
+    float dY;
+    int lastAction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,37 +44,6 @@ public class MainActivity extends AppCompatActivity {
         }
         final CardView layout = findViewById(R.id.menu);
         layout.setTag("22");
-        if (layout.getVisibility() == View.VISIBLE) {
-            layout.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    // Create a new ClipData.
-                    // This is done in two steps to provide clarity. The convenience method
-                    // ClipData.newPlainText() can create a plain text ClipData in one step.
-
-                    // Create a new ClipData.Item from the ImageView object's tag
-                    ClipData.Item item = new ClipData.Item(v.getTag().toString());
-
-                    // Create a new ClipData using the tag a2s a label, the plain text MIME type, and
-                    // the already-created item. This will create a new ClipDescription object within the
-                    // ClipData, and set its MIME type entry to "text/plain"
-                    ClipData dragData = new ClipData(v.getTag().toString(), new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, item);
-
-                    // Instantiates the drag shadow builder.
-                    View.DragShadowBuilder myShadow = new MyDragShadowBuilder(layout);
-
-                    // Starts the drag
-
-                    v.startDrag(dragData,  // the data to be dragged
-                            myShadow,  // the drag shadow builder
-                            null,      // no need to use local data
-                            0          // flags (not currently used, set to 0)
-                    );
-
-                    return false;
-                }
-            });
-        }
     }
 
     public void Add(View view) {
@@ -185,8 +157,8 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < btn.length; i++) {
                 btn[i].setEnabled(false);
             }
-        } else if(!texts[0].equals("")&&!texts[1].equals("")&&!texts[2].equals("")&&!texts[3].equals("")&&!texts[4].equals("")&&!texts[5].equals("")&&!texts[6].equals("")&&!texts[7].equals("")&&!texts[8].equals("")){
-            showToast("Stalemate !",R.drawable.stalemate);
+        } else if (!texts[0].equals("") && !texts[1].equals("") && !texts[2].equals("") && !texts[3].equals("") && !texts[4].equals("") && !texts[5].equals("") && !texts[6].equals("") && !texts[7].equals("") && !texts[8].equals("")) {
+            showToast("Stalemate !", R.drawable.stalemate);
         }
     }
 
@@ -194,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         CardView cvlayout = findViewById(R.id.menu);
         FrameLayout flayout = findViewById(R.id.winningbackground);
         TextView text = findViewById(R.id.Winnerplayer);
+        cvlayout.setOnTouchListener(this);
         cvlayout.setVisibility(View.VISIBLE);
         flayout.setBackgroundResource(background);
         cvlayout.setBackgroundResource(background);
@@ -218,7 +191,29 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedState);
     }
 
-    private static class MyDragShadowBuilder extends View.DragShadowBuilder {
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                dX = view.getX() - event.getRawX();
+                dY = view.getY() - event.getRawY();
+                lastAction = MotionEvent.ACTION_DOWN;
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                view.setY(event.getRawY() + dY);
+                view.setX(event.getRawX() + dX);
+                lastAction = MotionEvent.ACTION_MOVE;
+                break;
+
+            default:
+                return false;
+        }
+        return true;
+    }
+}
+
+    class MyDragShadowBuilder extends View.DragShadowBuilder {
 
         // The drag shadow image, defined as a drawable thing
         private static Drawable shadow;
@@ -263,9 +258,7 @@ public class MainActivity extends AppCompatActivity {
         // from the dimensions passed in onProvideShadowMetrics().
         @Override
         public void onDrawShadow(Canvas canvas) {
-
             // Draws the ColorDrawable in the Canvas passed in from the system.
             shadow.draw(canvas);
         }
     }
-}

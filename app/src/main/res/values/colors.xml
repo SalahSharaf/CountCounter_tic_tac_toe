@@ -10,4 +10,7 @@
     <color name="colorOPurplePrimary">#aa00ff</color>
     <color name="colorOPurplePrimaryDark">#7200ca</color>
     <color name="colorOPurplePrimaryLight">#e254ff</color>
+    <color name="colorWinningEnd">#311b5e20</color>
+    <color name="colorWinningStart">#59b15c</color>
+    <color name="colorStalemateEnd">#32292929</color>
 </resources>
