@@ -12,6 +12,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="30dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -20,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="Player X"
+            android:text="@string/player_x"
             android:textColor="@color/colorXPinkPrimary"
             android:textSize="30sp" />
 
@@ -34,18 +35,27 @@
             android:textSize="30sp" />
 
     </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Main Menu"
+        android:onClick="mainMenu"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/buttongradiant"
+        android:layout_marginTop="40dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginRight="30dp"
         android:layout_alignParentRight="true"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Player O"
+            android:text="@string/player_o"
             android:textColor="@color/colorOPurplePrimary"
             android:textSize="30sp" />
 
