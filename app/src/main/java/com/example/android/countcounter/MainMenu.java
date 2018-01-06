@@ -20,15 +20,6 @@ public class MainMenu extends AppCompatActivity {
         //zeroing the result for both players
         MainActivity.xCount = 0;
         MainActivity.oCount = 0;
-        ////hiding status bar
-        if (Build.VERSION.SDK_INT < 16) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        } else {
-            View decorView = getWindow().getDecorView();
-            int uiOption = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-            decorView.setSystemUiVisibility(uiOption);
-        }
     }
 
     public void newGame(View view) {
