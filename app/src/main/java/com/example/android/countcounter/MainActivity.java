@@ -1,20 +1,12 @@
 package com.example.android.countcounter;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -22,6 +14,9 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
     private int playerID = 0;
+    boolean gameOver = false;
+    String toastMessage;
+    int toastDrawable;
     String[] texts;
     Button[] btn;
     public static int xCount, oCount;
@@ -43,15 +38,40 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             texts = savedInstanceState.getStringArray("textsArray");
             xCount = savedInstanceState.getInt("xCount");
             oCount = savedInstanceState.getInt("oCount");
-            for(int i=0;i<texts.length;i++){
-                btn[i].setText(texts[i]);
-            }
+            playerID = savedInstanceState.getInt("playerID");
+            gameOver=savedInstanceState.getBoolean("gameOver");
+            toastMessage=savedInstanceState.getString("toastMessage");
+            toastDrawable=savedInstanceState.getInt("toastDrawable");
         }
         /////updating texts with the final result
         TextView textX = findViewById(R.id.playerXcount);
         TextView textO = findViewById(R.id.playerOcount);
         textX.setText("" + xCount);
         textO.setText("" + oCount);
+    }
+
+    @Override
+    protected void onResume() {
+        /////updating texts with the final result
+        TextView textX = findViewById(R.id.playerXcount);
+        TextView textO = findViewById(R.id.playerOcount);
+        textX.setText("" + xCount);
+        textO.setText("" + oCount);
+        for (int i = 0; i < texts.length; i++) {
+            btn[i].setText(texts[i]);
+            if (!btn[i].getText().toString().equals("")) {
+                btn[i].setEnabled(false);
+                if (btn[i].getText().toString().equals("X")) {
+                    btn[i].setBackgroundResource(R.drawable.xbuttondrawable);
+                } else {
+                    btn[i].setBackgroundResource(R.drawable.obuttondrawable);
+                }
+            }
+        }
+        if(gameOver){
+            showToast(toastMessage,toastDrawable);
+        }
+        super.onResume();
     }
 
     public void Add(View view) {
@@ -178,6 +198,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         cvlayout.setVisibility(View.VISIBLE);
         flayout.setBackgroundResource(background);
         cvlayout.setBackgroundResource(background);
+        gameOver = true;
+        toastMessage=winner;
+        toastDrawable=background;
         text.setText(winner);
     }
 
@@ -192,11 +215,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedState) {
-        savedState.putStringArray("textsArray", texts);
-        savedState.putInt("cCount", xCount);
-        savedState.putInt("xCount", oCount);
-        super.onSaveInstanceState(savedState);
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putStringArray("textsArray", texts);
+        outState.putInt("oCount", oCount);
+        outState.putInt("xCount", xCount);
+        outState.putInt("playerID", playerID);
+        outState.putBoolean("gameOver",gameOver);
+        outState.putString("toastMessage",toastMessage);
+        outState.putInt("toastDrawable",toastDrawable);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
