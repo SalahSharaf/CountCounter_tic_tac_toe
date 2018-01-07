@@ -30,4 +30,10 @@ public class MainMenu extends AppCompatActivity {
     public void Exit(View view) {
         finishAffinity();
     }
+
+    @Override
+    public void onBackPressed() {
+        //don't go back
+    }
+
 }

@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public void onBackPressed() {
-
+        //don't go back
     }
 
     @Override
@@ -252,4 +252,3 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return true;
     }
 }
-
