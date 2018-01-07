@@ -13,13 +13,21 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
+    // switcher to change the player identity x,o
     private int playerID = 0;
+    //checks whether the game is over and the winning layout is displayed
     boolean gameOver = false;
+    //passes the toast's message
     String toastMessage;
+    //passes the toast's drawable background
     int toastDrawable;
+    // containing the text in each button
     String[] texts;
+    // containing the buttons
     Button[] btn;
+    // number of winning times for both x and o
     public static int xCount, oCount;
+    ///// these variables are related to moving and draggable layout function
     float dX;
     float dY;
     int lastAction;
@@ -39,9 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             xCount = savedInstanceState.getInt("xCount");
             oCount = savedInstanceState.getInt("oCount");
             playerID = savedInstanceState.getInt("playerID");
-            gameOver=savedInstanceState.getBoolean("gameOver");
-            toastMessage=savedInstanceState.getString("toastMessage");
-            toastDrawable=savedInstanceState.getInt("toastDrawable");
+            gameOver = savedInstanceState.getBoolean("gameOver");
+            toastMessage = savedInstanceState.getString("toastMessage");
+            toastDrawable = savedInstanceState.getInt("toastDrawable");
         }
         /////updating texts with the final result
         TextView textX = findViewById(R.id.playerXcount);
@@ -68,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 }
             }
         }
-        if(gameOver){
-            showToast(toastMessage,toastDrawable);
+        if (gameOver) {
+            showToast(toastMessage, toastDrawable);
         }
         super.onResume();
     }
@@ -199,8 +207,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         flayout.setBackgroundResource(background);
         cvlayout.setBackgroundResource(background);
         gameOver = true;
-        toastMessage=winner;
-        toastDrawable=background;
+        toastMessage = winner;
+        toastDrawable = background;
         text.setText(winner);
     }
 
@@ -220,9 +228,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         outState.putInt("oCount", oCount);
         outState.putInt("xCount", xCount);
         outState.putInt("playerID", playerID);
-        outState.putBoolean("gameOver",gameOver);
-        outState.putString("toastMessage",toastMessage);
-        outState.putInt("toastDrawable",toastDrawable);
+        outState.putBoolean("gameOver", gameOver);
+        outState.putString("toastMessage", toastMessage);
+        outState.putInt("toastDrawable", toastDrawable);
         super.onSaveInstanceState(outState);
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Count Counter</string>
+    <string name="app_name">tic tac toe</string>
     <string name="player_x">Player X</string>
     <string name="player_o">Player O</string>
 </resources>
