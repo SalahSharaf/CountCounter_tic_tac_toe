@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
     // switcher to change the player identity x,o
     private int playerID = 0;
     //checks whether the game is over and the winning layout is displayed
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     float dX;
     float dY;
     int lastAction;
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,4 +261,5 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
         return true;
     }
+
 }
