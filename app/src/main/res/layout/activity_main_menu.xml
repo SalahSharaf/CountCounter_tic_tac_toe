@@ -6,15 +6,20 @@
     android:background="@drawable/appbackgroundgradiant"
     android:layout_height="match_parent"
     tools:context="com.example.android.countcounter.MainMenu">
+
     <ImageView
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:layout_width="210dp"
         android:layout_height="210dp"
         android:minHeight="180dp"
+        android:id="@+id/w1"
         android:maxHeight="250dp"
         android:src="@drawable/main_menu_background"/>
 
     <LinearLayout
+        android:layout_below="@id/w1"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical"
@@ -26,8 +31,17 @@
             android:background="@drawable/buttongradiant"
             android:layout_height="wrap_content"
             android:elevation="20dp"
-            android:onClick="newGame"
-            android:text="New Game"/>
+            android:layout_marginBottom="10dp"
+            android:onClick="newSingleGame"
+            android:text="Single player "/>
+
+        <Button
+            android:layout_width="250dp"
+            android:background="@drawable/buttongradiant"
+            android:layout_height="wrap_content"
+            android:elevation="20dp"
+            android:onClick="newMultiGame"
+            android:text="Multiplayer "/>
 
         <Button
             android:layout_marginTop="10dp"

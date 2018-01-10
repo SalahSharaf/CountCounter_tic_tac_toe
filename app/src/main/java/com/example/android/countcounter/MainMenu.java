@@ -16,15 +16,24 @@ public class MainMenu extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
         //zeroing the result for both players
         MainActivity.xCount = 0;
         MainActivity.oCount = 0;
+        //
+        MainActivity.singlePlayer = false;
+        MainActivity.multiPlayer = false;
     }
 
-    public void newGame(View view) {
+    public void newMultiGame(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        MainActivity.multiPlayer = true;
+    }
+
+    public void newSingleGame(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        MainActivity.singlePlayer = true;
     }
 
     public void Exit(View view) {
