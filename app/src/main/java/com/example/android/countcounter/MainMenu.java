@@ -19,7 +19,7 @@ public class MainMenu extends AppCompatActivity {
         //zeroing the result for both players
         MainActivity.xCount = 0;
         MainActivity.oCount = 0;
-        //
+        //restoring defaults
         MainActivity.singlePlayer = false;
         MainActivity.multiPlayer = false;
     }

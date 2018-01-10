@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
 import static com.example.android.countcounter.Board.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
@@ -68,17 +69,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         textX.setText("" + xCount);
         textO.setText("" + oCount);
         /////////////////////////////////////////////////////a new whole section for artificial Intelligence
-        if(singlePlayer) {
+        if (singlePlayer) {
             createBoard();
-            ss=new ArtificialIntelligence("pc",DOT_O,5);
-        }
-
-        for(int i=0;i<3;i++){
-            for(int j=0;j<3;i++){
-                chars[i][j]=DOT_EMPTY;
-                mBoard[i][j]=DOT_EMPTY;
-                btn[i][j].setText(String.valueOf(DOT_EMPTY));
-            }
+            ss = new ArtificialIntelligence("pc", DOT_O, 5);
         }
     }
 
@@ -108,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     btn[i][j].setEnabled(false);
                     if (btn[i][j].getText().toString().equals(DOT_X)) {
                         btn[i][j].setBackgroundResource(R.drawable.xbuttondrawable);
-                    } else if(btn[i][j].getText().toString().equals(DOT_O)) {
+                    } else if (btn[i][j].getText().toString().equals(DOT_O)) {
                         btn[i][j].setBackgroundResource(R.drawable.obuttondrawable);
                     }
                 }
@@ -144,8 +137,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 btn.setBackgroundResource(R.drawable.xbuttondrawable);
                 int index = Hmove(mBoard, Integer.parseInt(btn.getContentDescription().toString()));
                 turnPlayer(DOT_X, index);
-                int index2=ss.move();
-                turnPlayer(DOT_O,index2);
+                int index2 = ss.move();
+                turnPlayer(DOT_O, index2);
                 check();
 
             }

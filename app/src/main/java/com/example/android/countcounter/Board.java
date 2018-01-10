@@ -10,7 +10,7 @@ public final class Board {
 
     public static final char DOT_X = 'X';
     public static final char DOT_O = 'O';
-    public static final char DOT_EMPTY = ' ';
+    public static final char DOT_EMPTY = '\0';
     public static final int DOT_TO_WIN = 3;
     public static final int SIZE = 3;
     public static char[][] mBoard;
