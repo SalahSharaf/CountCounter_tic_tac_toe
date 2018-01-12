@@ -9,11 +9,11 @@ import static com.example.android.countcounter.Board.*;
 public class ArtificialIntelligence {
     private String mName;
     private int mDifficult;
-    private char mAiSymbol;
-    private char mHumanSymbol;
+    private String mAiSymbol;
+    private String mHumanSymbol;
     private ArrayList<Move> mMoves = new ArrayList<>();
 
-    public ArtificialIntelligence (String name, char aiPlayerSymbol, int difficult) {
+    public ArtificialIntelligence (String name, String aiPlayerSymbol, int difficult) {
         mName = name;
         mAiSymbol = aiPlayerSymbol;
         mDifficult = difficult;
@@ -37,7 +37,7 @@ public class ArtificialIntelligence {
      * @param newboard is a board. When depth is increase we fill board.
      */
 
-    public int minimax(char [][] newboard, char player, int depth) {
+    public int minimax(String [][] newboard, String player, int depth) {
         if (depth == mDifficult)
             return 0;
         if (checkWin(mHumanSymbol))
@@ -108,7 +108,7 @@ public class ArtificialIntelligence {
         return mName;
     }
 
-    public char getAiSymbol(){
+    public String getAiSymbol(){
         return mAiSymbol;
     }
 }
