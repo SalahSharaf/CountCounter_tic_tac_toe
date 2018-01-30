@@ -15,7 +15,7 @@ import static com.example.android.countcounter.Board.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // switcher to change the player identity x,o
     private int playerID = 0;
     //checks whether the game is over and the winning layout is displayed
@@ -35,9 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     float dX;
     float dY;
     int lastAction;
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    public ArtificialIntelligence ss;
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -66,23 +64,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         /////////////////////////////////////////////////////a new whole section for artificial Intelligence
         if (singlePlayer) {
             createBoard();
-            ss = new ArtificialIntelligence("pc", DOT_O, 10);
+            //initialize a new AI objects
         } else if (multiPlayer) {
             createBoard();
         }
     }
 
     ////////////////////////////////////////related to AI expressing the player's movement
-    public int Hmove(String[][] board, int index) {
-        if (index < 3 && board[0][index].equals(DOT_EMPTY)) {
-            return index;
-        } else if (index > 2 && index < 6 && board[1][index - 3].equals(DOT_EMPTY)) {
-            return index;
-        } else if (index > 5 && index < 9 && board[2][index - 6].equals(DOT_EMPTY)) {
-            return index;
-        }
-        return -1;
-    }
 
     @Override
     protected void onResume() {
@@ -131,14 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             }
         } else if (singlePlayer) {/////////////////////////////////////////////////////////////// Artificial Intelligence
             if (btn.isEnabled()) {
-                btn.setText(String.valueOf(DOT_X));
-                btn.setEnabled(false);
-                btn.setBackgroundResource(R.drawable.xbuttondrawable);
-                int index = Hmove(mBoard, Integer.parseInt(btn.getContentDescription().toString()));
-                turnPlayer(DOT_X, index);
-                int index2 = ss.move();
-                turnPlayer(DOT_O, index2);
-                check();
+                ///
             }
         }
     }
@@ -158,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 oCount++;
             }
             for (int i = 0; i < 3; i++) {
-                for(int j=0;j<3;j++){
+                for (int j = 0; j < 3; j++) {
                     btn[i][j].setEnabled(false);
                 }
             }
@@ -171,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 oCount++;
             }
             for (int i = 0; i < 3; i++) {
-                for(int j=0;j<3;j++){
+                for (int j = 0; j < 3; j++) {
                     btn[i][j].setEnabled(false);
                 }
             }
@@ -184,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 oCount++;
             }
             for (int i = 0; i < 3; i++) {
-                for(int j=0;j<3;j++){
+                for (int j = 0; j < 3; j++) {
                     btn[i][j].setEnabled(false);
                 }
             }
@@ -197,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 oCount++;
             }
             for (int i = 0; i < 3; i++) {
-                for(int j=0;j<3;j++){
+                for (int j = 0; j < 3; j++) {
                     btn[i][j].setEnabled(false);
                 }
             }
@@ -210,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 oCount++;
             }
             for (int i = 0; i < 3; i++) {
-                for(int j=0;j<3;j++){
+                for (int j = 0; j < 3; j++) {
                     btn[i][j].setEnabled(false);
                 }
             }
@@ -223,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 oCount++;
             }
             for (int i = 0; i < 3; i++) {
-                for(int j=0;j<3;j++){
+                for (int j = 0; j < 3; j++) {
                     btn[i][j].setEnabled(false);
                 }
             }
@@ -236,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 oCount++;
             }
             for (int i = 0; i < 3; i++) {
-                for(int j=0;j<3;j++){
+                for (int j = 0; j < 3; j++) {
                     btn[i][j].setEnabled(false);
                 }
             }
@@ -249,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 oCount++;
             }
             for (int i = 0; i < 3; i++) {
-                for(int j=0;j<3;j++){
+                for (int j = 0; j < 3; j++) {
                     btn[i][j].setEnabled(false);
                 }
             }
@@ -324,4 +305,46 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return true;
     }
 
+    /*public int minimax(int depth, int turn) {
+        if (hasXWon()) return +1;
+        if (hasOWon()) return -1;
+
+        List<Point> pointsAvailable = getAvailableStates();
+        if (pointsAvailable.isEmpty()) return 0;
+
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+
+        for (int i = 0; i < pointsAvailable.size(); ++i) {
+            Point point = pointsAvailable.get(i);
+            if (turn == 1) {
+                placeAMove(point, 1);
+                int currentScore = minimax(depth + 1, 2);
+                max = Math.max(currentScore, max);
+
+                if (depth == 0)
+                    System.out.println("Score for position " + (i + 1) + " = " + currentScore);
+                if (currentScore >= 0) {
+                    if (depth == 0) computersMove = point;
+                }
+                if (currentScore == 1) {
+                    board[point.x][point.y] = 0;
+                    break;
+                }
+                if (i == pointsAvailable.size() - 1 && max < 0) {
+                    if (depth == 0) computersMove = point;
+                }
+            } else if (turn == 0) {
+                placeAMove(point, 2);
+                int currentScore = minimax(depth + 1, 1);
+                min = Math.min(currentScore, min);
+                if (min == -1) {
+                    board[point.x][point.y] = 0;
+                    break;
+                }
+            }
+
+            board[point.x][point.y] = 0; //Reset this point
+        }
+        return turn == 1 ? max : min;
+    }*/
 }
