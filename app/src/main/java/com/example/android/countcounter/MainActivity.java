@@ -1,19 +1,24 @@
 package com.example.android.countcounter;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 /////////////////////////////////////////////////////////Artificial Intelligence
 import static com.example.android.countcounter.Board.*;
 
-public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
+public class MainActivity extends AppCompatActivity {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // switcher to change the player identity x,o
@@ -35,12 +40,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     float dX;
     float dY;
     int lastAction;
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        this.setFinishOnTouchOutside(false);
         setContentView(R.layout.activity_main);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+        // ...but notify us that it happened.
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH, WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
 
         ///initializing buttons array
         btn = new Button[][]{
@@ -59,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             toastMessage = savedInstanceState.getString("toastMessage");
             toastDrawable = savedInstanceState.getInt("toastDrawable");
         }
-
-
         /////////////////////////////////////////////////////a new whole section for artificial Intelligence
         if (singlePlayer) {
             createBoard();
@@ -130,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 mBoard[i][j] = btn[i][j].getText().toString();
             }
         }
+
         if (mBoard[0][0].equals(mBoard[0][1]) && mBoard[0][1].equals(mBoard[0][2]) && !mBoard[0][2].equals("")) {
             if (mBoard[0][0].equals("X")) {
                 showToast("Player X is the winner", R.drawable.winning);
@@ -235,8 +245,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 }
             }
         } else if (!mBoard[0][0].equals("") && !mBoard[0][1].equals("") && !mBoard[0][2].equals("") && !mBoard[1][0].equals("") && !mBoard[1][1].equals("") && !mBoard[1][2].equals("") && !mBoard[2][0].equals("") && !mBoard[2][1].equals("") && !mBoard[2][2].equals("")) {
-            showToast("Stalemate !", R.drawable.stalemate);
+            showToast("it's a tie !", R.drawable.stalemate);
         }
+    }
+
+    public void mainMenu(View view){
+        Intent intent=new Intent(this,MainMenu.class);
+        startActivity(intent);
     }
 
     @Override
@@ -253,30 +268,53 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         super.onSaveInstanceState(outState);
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void showToast(String winner, int background) {
-        CardView cvlayout = findViewById(R.id.menu);
-        FrameLayout flayout = findViewById(R.id.winningbackground);
-        TextView text = findViewById(R.id.Winnerplayer);
-        cvlayout.setOnTouchListener(this);
-        cvlayout.setVisibility(View.VISIBLE);
-        flayout.setBackgroundResource(background);
-        cvlayout.setBackgroundResource(background);
+      /* CardView cvlayout = findViewById(R.id.menu);
+       FrameLayout flayout = findViewById(R.id.winningbackground);
+       TextView text = findViewById(R.id.Winnerplayer);
+       cvlayout.setOnTouchListener(this);
+       cvlayout.setVisibility(View.VISIBLE);
+       flayout.setBackgroundResource(background);
+       cvlayout.setBackgroundResource(background); */
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE|Window.FEATURE_ACTIVITY_TRANSITIONS|Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            dialog.getWindow().setElevation(10f);
+        }
+        dialog.setContentView(R.layout.dialog);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        // this to set the dialog background color
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        TextView textView = dialog.findViewById(R.id.winnerPlayer);
+        CardView cvLayout = dialog.findViewById(R.id.menu);
+        FrameLayout frameLayout = dialog.findViewById(R.id.winningbackground);
+        Button btnRematch = dialog.findViewById(R.id.rematch);
+        Button btnMainMenu = dialog.findViewById(R.id.main_menu);
+        btnRematch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnMainMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), MainMenu.class);
+                startActivity(intent);
+            }
+        });
+        frameLayout.setBackgroundResource(background);
+        cvLayout.setBackgroundResource(background);
+        textView.setText(winner);
         gameOver = true;
         toastMessage = winner;
         toastDrawable = background;
-        text.setText(winner);
-    }
-
-    public void rematch(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void mainMenu(View view) {
-        Intent intent = new Intent(this, MainMenu.class);
-        startActivity(intent);
     }
 
     @Override
@@ -284,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         //don't go back
     }
 
-    @Override
+    /*@Override
     public boolean onTouch(View view, MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
@@ -303,9 +341,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 return false;
         }
         return true;
-    }
+    }*/
 
-    /*public int minimax(int depth, int turn) {
+    /*@Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (MotionEvent.ACTION_OUTSIDE == event.getAction()) {
+            return true;
+        }
+        return super.onTouchEvent(event);
+    }*/
+
+    /* public int minimax(int depth, int turn) {
         if (hasXWon()) return +1;
         if (hasOWon()) return -1;
 

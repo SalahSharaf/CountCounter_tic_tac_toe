@@ -3,54 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/appbackgroundgradiant"
     android:layout_height="match_parent"
+    android:background="@drawable/appbackgroundgradiant"
     tools:context="com.example.android.countcounter.MainMenu">
 
     <ImageView
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="210dp"
-        android:layout_height="210dp"
-        android:minHeight="180dp"
         android:id="@+id/w1"
-        android:maxHeight="250dp"
-        android:src="@drawable/main_menu_background"/>
+        android:layout_width="@dimen/logo_width"
+        android:layout_height="@dimen/logo_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/logo_margin_top"
+        android:src="@drawable/main_menu_background" />
 
     <LinearLayout
-        android:layout_below="@id/w1"
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/w1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/menu_options_margin_top"
         android:gravity="center"
-        android:layout_height="wrap_content">
+        android:orientation="vertical" >
 
         <Button
-            android:layout_width="250dp"
-            android:background="@drawable/buttongradiant"
+            android:layout_width="@dimen/menu_options_item_width"
             android:layout_height="wrap_content"
-            android:elevation="20dp"
-            android:layout_marginBottom="10dp"
+            android:background="@drawable/buttongradiant"
+            android:enabled="false"
             android:onClick="newSingleGame"
-            android:text="Single player "/>
+            android:text="Single player " />
 
         <Button
-            android:layout_width="250dp"
-            android:background="@drawable/buttongradiant"
+            android:layout_width="@dimen/menu_options_item_width"
             android:layout_height="wrap_content"
-            android:elevation="20dp"
+            android:layout_marginTop="@dimen/menu_options_item_margin_top"
+            android:background="@drawable/buttongradiant"
             android:onClick="newMultiGame"
-            android:text="Multiplayer "/>
+            android:text="Multiplayer" />
 
         <Button
-            android:layout_marginTop="10dp"
-            android:layout_width="250dp"
-            android:background="@drawable/buttongradiant"
-            android:elevation="20dp"
-            android:onClick="Exit"
+            android:layout_width="@dimen/menu_options_item_width"
             android:layout_height="wrap_content"
-            android:text="Exit"/>
+            android:layout_marginTop="@dimen/menu_options_item_margin_top"
+            android:background="@drawable/buttongradiant"
+            android:onClick="Exit"
+            android:text="Exit" />
 
     </LinearLayout>
 
